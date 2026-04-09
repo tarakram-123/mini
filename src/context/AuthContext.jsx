@@ -5,8 +5,8 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-  const login = (username, password) => {
-    if (username === "admin" && password === "1234") {
+  const login = (u, p) => {
+    if (u === "admin" && p === "1234") {
       setUser({ name: "Admin" });
       return true;
     }

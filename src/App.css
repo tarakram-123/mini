@@ -45,7 +45,17 @@
     transform: perspective(2000px) rotateZ(300deg) rotateX(44deg) rotateY(39deg)
       scale(1.4);
   }
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
 
+  background: linear-gradient(rgba(2,6,23,0.85), rgba(2,6,23,0.9)),
+    url("https://images.unsplash.com/photo-1581090700227-1e8a6c0c9b2b");
+
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
   .vite {
     z-index: 0;
     top: 107px;

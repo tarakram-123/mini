@@ -2,67 +2,152 @@ import { Box, Grid, Paper, Typography } from "@mui/material";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import StatCard from "../components/StatCard";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 export default function Dashboard() {
+
+  const [stats, setStats] = useState({
+    persons: 0,
+    weapons: 0,
+    alerts: 0
+  });
+
+  // 🔗 Fetch backend stats
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const res = await axios.get("http://127.0.0.1:5000/stats");
+        setStats(res.data);
+      } catch (err) {
+        console.log("Backend not connected");
+      }
+    };
+
+    fetchStats();
+    const interval = setInterval(fetchStats, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // 🚨 Real-time alert popup
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      try {
+        const res = await axios.get("http://127.0.0.1:5000/alert");
+        if (res.data.alert) {
+          toast.error(res.data.alert);
+        }
+      } catch {}
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <>
       <Navbar />
 
-      <Box display="flex" bgcolor="#f4f6f8" minHeight="100vh">
+      {/* 🔥 BACKGROUND + GLASS EFFECT */}
+      <Box
+        display="flex"
+        sx={{
+          minHeight: "100vh",
+          backgroundImage: `url("https://images.unsplash.com/photo-1558494949-ef010cbdcc31")`,
+          backgroundSize: "cover",
+          backgroundPosition: "center"
+        }}
+      >
         <Sidebar />
 
-        <Box flex={1} p={3}>
-
+        {/* Overlay */}
+        <Box
+          flex={1}
+          p={3}
+          sx={{
+            background: "rgba(2,6,23,0.85)",
+            backdropFilter: "blur(10px)",
+            color: "white"
+          }}
+        >
           {/* TITLE */}
-          <Typography variant="h4" fontWeight="bold" mb={3}>
-            Surveillance Dashboard
+          <Typography variant="h4" mb={2} fontWeight="bold">
+            CCTV Surveillance Dashboard
           </Typography>
 
-          {/* STATS */}
+          {/* STATUS BAR */}
+          <Box
+            sx={{
+              mb: 3,
+              p: 1,
+              borderRadius: 2,
+              background: "#020617",
+              display: "flex",
+              justifyContent: "space-between"
+            }}
+          >
+            <span>🟢 System Active</span>
+            <span>📡 Cameras Connected</span>
+          </Box>
+
+          {/* 📊 STATS */}
           <Grid container spacing={3}>
             <Grid item xs={12} md={4}>
-              <StatCard title="Persons Detected" value="12" color="#1976d2" />
+              <StatCard title="Persons" value={stats.persons} color="#22c55e" />
             </Grid>
             <Grid item xs={12} md={4}>
-              <StatCard title="Weapons Detected" value="2" color="#d32f2f" />
+              <StatCard title="Weapons" value={stats.weapons} color="#ef4444" />
             </Grid>
             <Grid item xs={12} md={4}>
-              <StatCard title="Alerts" value="5" color="#ed6c02" />
+              <StatCard title="Alerts" value={stats.alerts} color="#f59e0b" />
             </Grid>
           </Grid>
 
-          {/* CAMERA SECTION */}
-          <Paper elevation={4} sx={{ mt: 4, p: 2, borderRadius: 3 }}>
-            <Typography variant="h6" mb={2}>
-              Live Camera Feed
-            </Typography>
+          {/* 🎥 MULTI CAMERA GRID */}
+          <Grid container spacing={2} mt={3}>
+            {[1, 2, 3, 4].map((cam) => (
+              <Grid item xs={12} md={6} key={cam}>
+                <Paper
+                  sx={{
+                    p: 1,
+                    background: "#1e293b",
+                    borderRadius: 2
+                  }}
+                >
+                  <Box
+                    sx={{
+                      position: "relative",
+                      border: "3px solid #22c55e",
+                      borderRadius: 2,
+                      overflow: "hidden",
+                      boxShadow: "0 0 20px rgba(34,197,94,0.5)"
+                    }}
+                  >
+                    <img
+                      src="http://127.0.0.1:5000/video_feed"
+                      width="100%"
+                    />
 
-            <Box
-              sx={{
-                borderRadius: 2,
-                overflow: "hidden",
-                border: "2px solid #ddd",
-              }}
-            >
-              <img
-                src="http://127.0.0.1:5000/video_feed"
-                width="100%"
-              />
-            </Box>
-          </Paper>
-
-          {/* ALERTS */}
-          <Paper elevation={4} sx={{ mt: 4, p: 2, borderRadius: 3 }}>
-            <Typography variant="h6" mb={2}>
-              Recent Alerts
-            </Typography>
-
-            <ul>
-              <li>🔫 Weapon Detected</li>
-              <li>⚠ High Threat</li>
-              <li>😷 No Mask</li>
-            </ul>
-          </Paper>
+                    {/* 🔴 LIVE indicator */}
+                    <Box
+                      sx={{
+                        position: "absolute",
+                        top: 10,
+                        left: 10,
+                        background: "red",
+                        color: "white",
+                        px: 1,
+                        borderRadius: 1,
+                        fontSize: "12px"
+                      }}
+                    >
+                      ● LIVE
+                    </Box>
+                  </Box>
+                </Paper>
+              </Grid>
+            ))}
+          </Grid>
 
         </Box>
       </Box>

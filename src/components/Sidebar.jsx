@@ -8,18 +8,19 @@ export default function Sidebar() {
         width: 220,
         [`& .MuiDrawer-paper`]: {
           width: 220,
-          background: "#1e293b",
-          color: "white"
+          background: "rgba(2,6,23,0.9)",
+          color: "#fff",
+          borderRight: "1px solid rgba(255,255,255,0.1)"
         }
       }}
     >
       <List>
         <ListItem button>
-          <ListItemText primary="Dashboard" />
+          <ListItemText primary="📊 Dashboard" />
         </ListItem>
 
         <ListItem button>
-          <ListItemText primary="Alerts" />
+          <ListItemText primary="🚨 Alerts" />
         </ListItem>
       </List>
     </Drawer>
