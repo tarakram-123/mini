@@ -8,18 +8,33 @@ export default function Sidebar() {
         width: 220,
         [`& .MuiDrawer-paper`]: {
           width: 220,
-          background: "rgba(2,6,23,0.9)",
-          color: "#fff",
-          borderRight: "1px solid rgba(255,255,255,0.1)"
+          background: "#020617",
+          color: "white"
         }
       }}
     >
       <List>
-        <ListItem button>
+        <ListItem
+          button
+          sx={{
+            "&:hover": {
+              background: "#1e293b",
+              borderLeft: "4px solid #22c55e"
+            }
+          }}
+        >
           <ListItemText primary="📊 Dashboard" />
         </ListItem>
 
-        <ListItem button>
+        <ListItem
+          button
+          sx={{
+            "&:hover": {
+              background: "#1e293b",
+              borderLeft: "4px solid #ef4444"
+            }
+          }}
+        >
           <ListItemText primary="🚨 Alerts" />
         </ListItem>
       </List>

@@ -14,14 +14,14 @@ export default function Dashboard() {
     alerts: 0
   });
 
-  // 🔗 Fetch backend stats
+  // ✅ Fetch stats safely
   useEffect(() => {
     const fetchStats = async () => {
       try {
         const res = await axios.get("http://127.0.0.1:5000/stats");
         setStats(res.data);
       } catch (err) {
-        console.log("Backend not connected");
+        console.log("Backend not running");
       }
     };
 
@@ -30,7 +30,7 @@ export default function Dashboard() {
     return () => clearInterval(interval);
   }, []);
 
-  // 🚨 Real-time alert popup
+  // ✅ Alert popup (safe)
   useEffect(() => {
     const interval = setInterval(async () => {
       try {
@@ -48,49 +48,38 @@ export default function Dashboard() {
     <>
       <Navbar />
 
-      {/* 🔥 BACKGROUND + GLASS EFFECT */}
       <Box
         display="flex"
         sx={{
           minHeight: "100vh",
-          backgroundImage: `url("https://images.unsplash.com/photo-1558494949-ef010cbdcc31")`,
-          backgroundSize: "cover",
-          backgroundPosition: "center"
+          background: "linear-gradient(135deg, #0f172a, #020617)"
         }}
       >
         <Sidebar />
 
-        {/* Overlay */}
-        <Box
-          flex={1}
-          p={3}
-          sx={{
-            background: "rgba(2,6,23,0.85)",
-            backdropFilter: "blur(10px)",
-            color: "white"
-          }}
-        >
-          {/* TITLE */}
-          <Typography variant="h4" mb={2} fontWeight="bold">
-            CCTV Surveillance Dashboard
+        <Box flex={1} p={3} color="white">
+
+          {/* HEADER */}
+          <Typography variant="h4" fontWeight="bold" mb={2}>
+            📡 CCTV Surveillance Dashboard
           </Typography>
 
           {/* STATUS BAR */}
           <Box
             sx={{
               mb: 3,
-              p: 1,
+              p: 2,
               borderRadius: 2,
-              background: "#020617",
+              background: "rgba(30,41,59,0.8)",
               display: "flex",
               justifyContent: "space-between"
             }}
           >
             <span>🟢 System Active</span>
-            <span>📡 Cameras Connected</span>
+            <span>📷 Cameras Connected</span>
           </Box>
 
-          {/* 📊 STATS */}
+          {/* STATS */}
           <Grid container spacing={3}>
             <Grid item xs={12} md={4}>
               <StatCard title="Persons" value={stats.persons} color="#22c55e" />
@@ -103,32 +92,33 @@ export default function Dashboard() {
             </Grid>
           </Grid>
 
-          {/* 🎥 MULTI CAMERA GRID */}
-          <Grid container spacing={2} mt={3}>
+          {/* CAMERA GRID */}
+          <Grid container spacing={3} mt={2}>
             {[1, 2, 3, 4].map((cam) => (
               <Grid item xs={12} md={6} key={cam}>
                 <Paper
                   sx={{
                     p: 1,
                     background: "#1e293b",
-                    borderRadius: 2
+                    borderRadius: 3
                   }}
                 >
                   <Box
                     sx={{
                       position: "relative",
-                      border: "3px solid #22c55e",
                       borderRadius: 2,
                       overflow: "hidden",
-                      boxShadow: "0 0 20px rgba(34,197,94,0.5)"
+                      border: "2px solid #22c55e",
+                      boxShadow: "0 0 15px rgba(34,197,94,0.5)"
                     }}
                   >
                     <img
                       src="http://127.0.0.1:5000/video_feed"
                       width="100%"
+                      alt="camera"
                     />
 
-                    {/* 🔴 LIVE indicator */}
+                    {/* LIVE TAG */}
                     <Box
                       sx={{
                         position: "absolute",

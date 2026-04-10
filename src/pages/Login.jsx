@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { TextField, Button, Container, Box, Typography } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Container,
+  Box,
+  Typography
+} from "@mui/material";
 
 export default function Login() {
   const { login } = useAuth();
@@ -14,7 +20,7 @@ export default function Login() {
 
   const handleLogin = () => {
     if (login(data.username, data.password)) {
-      navigate("/dashboard");
+      navigate("/dashboard");   // ✅ redirect
     } else {
       alert("Invalid credentials");
     }
@@ -26,10 +32,9 @@ export default function Login() {
         sx={{
           p: 5,
           borderRadius: 4,
-          backdropFilter: "blur(15px)",
-          background: "rgba(255,255,255,0.05)",
-          border: "1px solid rgba(255,255,255,0.1)",
-          boxShadow: "0 0 30px rgba(0,0,0,0.6)",
+          backdropFilter: "blur(10px)",
+          background: "rgba(30,41,59,0.8)",
+          boxShadow: "0 0 30px rgba(0,0,0,0.5)",
           color: "white"
         }}
       >
@@ -69,7 +74,7 @@ export default function Login() {
           }
         />
 
-        {/* BUTTON */}
+        {/* LOGIN BUTTON */}
         <Button
           fullWidth
           variant="contained"
@@ -77,12 +82,13 @@ export default function Login() {
             mt: 3,
             py: 1.5,
             background: "#22c55e",
+            borderRadius: "10px",
             fontWeight: "bold",
             "&:hover": {
               background: "#16a34a"
             }
           }}
-          onClick={handleLogin}
+          onClick={handleLogin}   // 🔥 IMPORTANT
         >
           Login
         </Button>

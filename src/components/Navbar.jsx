@@ -8,26 +8,27 @@ export default function Navbar() {
     <AppBar
       position="sticky"
       sx={{
-        backdropFilter: "blur(10px)",
-        background: "rgba(2,6,23,0.7)",
-        borderBottom: "1px solid rgba(255,255,255,0.1)"
+        background: "#020617",
+        borderBottom: "1px solid #1e293b"
       }}
     >
       <Toolbar>
-        <Typography variant="h6" sx={{ flex: 1, fontWeight: "bold" }}>
+        <Typography variant="h6" sx={{ flex: 1 }}>
           🔐 AI Theft Detection
         </Typography>
 
-        <Button
-          onClick={logout}
-          sx={{
-            color: "#fff",
-            border: "1px solid rgba(255,255,255,0.2)",
-            borderRadius: "8px"
-          }}
-        >
-          Logout
-        </Button>
+<Button
+  variant="contained"
+  sx={{
+    background: "#ef4444",
+    borderRadius: "10px",
+    px: 3,
+    "&:hover": { background: "#dc2626" }
+  }}
+  onClick={logout}
+>
+  Logout
+</Button>
       </Toolbar>
     </AppBar>
   );
